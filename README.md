@@ -1,81 +1,81 @@
 # Supabase Auth Project
 
-React додаток з авторизацією та управлінням профілями користувачів, побудований на Supabase.
+React application with authentication and user profile management, built on Supabase.
 
-## Технології
+## Technologies
 
-- **React 19** — UI бібліотека
-- **TypeScript** — типізація
-- **Vite** — збірка та dev server
-- **Supabase** — backend (авторизація, база даних)
-- **Tailwind CSS** — стилізація
-- **Vitest** — тестування
-- **React Testing Library** — тестування компонентів
+- **React 19** — UI library
+- **TypeScript** — type system
+- **Vite** — build tool and dev server
+- **Supabase** — backend (authentication, database)
+- **Tailwind CSS** — styling
+- **Vitest** — testing
+- **React Testing Library** — component testing
 
-## Функціональність
+## Features
 
-### Авторизація
-- Реєстрація через email та пароль
-- Вхід через email та пароль
-- Авторизація через Google OAuth
-- Вихід з акаунту
-- Автоматичне збереження сесії
+### Authentication
+- Email and password registration
+- Email and password login
+- Google OAuth authentication
+- Sign out
+- Automatic session persistence
 
-### Профіль користувача
-- Перегляд профілю
-- Редагування віку
-- Автоматичне створення профілю при реєстрації
-- Збереження даних в Supabase
+### User Profile
+- View profile
+- Edit age
+- Automatic profile creation on registration
+- Data storage in Supabase
 
-## Структура проекту
+## Project Structure
 
 ```
 src/
-├── app/              # Головний компонент додатку
-├── features/         # Бізнес-логіка
-│   ├── auth/         # Авторизація
-│   │   ├── auth.api.ts      # API виклики для auth
-│   │   ├── auth.types.ts    # Типи для auth
-│   │   └── useAuth.ts       # React хук для auth
-│   └── profiles/     # Профілі користувачів
-│       ├── profiles.api.ts  # API виклики для профілів
-│       ├── profiles.types.ts # Типи для профілів
-├── lib/              # Утиліти
-│   ├── supabase.ts   # Клієнт Supabase
-│   └── utils.ts      # Допоміжні функції
-├── pages/            # Сторінки
-│   ├── LoginPage.tsx # Сторінка логіну/реєстрації
-│   └── ProfilePage.tsx # Сторінка профілю
-├── shared/           # Спільні компоненти
-│   └── ui/           # UI компоненти
+├── app/              # Main application component
+├── features/         # Business logic
+│   ├── auth/         # Authentication
+│   │   ├── auth.api.ts      # API calls for auth
+│   │   ├── auth.types.ts    # Types for auth
+│   │   └── useAuth.ts       # React hook for auth
+│   └── profiles/     # User profiles
+│       ├── profiles.api.ts  # API calls for profiles
+│       ├── profiles.types.ts # Types for profiles
+├── lib/              # Utilities
+│   ├── supabase.ts   # Supabase client
+│   └── utils.ts      # Helper functions
+├── pages/            # Pages
+│   ├── LoginPage.tsx # Login/registration page
+│   └── ProfilePage.tsx # Profile page
+├── shared/           # Shared components
+│   └── ui/           # UI components
 │       ├── Button.tsx
 │       └── Input.tsx
-└── test/             # Налаштування тестів
+└── test/             # Test setup
     └── setup.ts
 ```
 
-## Налаштування
+## Setup
 
-### 1. Встановлення залежностей
+### 1. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 2. Змінні оточення
+### 2. Environment Variables
 
-Створіть файл `.env.local` в корені проєкту:
+Create a `.env.local` file in the project root:
 
 ```env
 VITE_SUPABASE_URL=your_supabase_project_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-Отримайте ці значення з панелі Supabase: **Settings → API**.
+Get these values from Supabase dashboard: **Settings → API**.
 
-### 3. Налаштування бази даних
+### 3. Database Setup
 
-Створіть таблицю `profiles` в Supabase:
+Create the `profiles` table in Supabase:
 
 ```sql
 create table profiles (
@@ -86,67 +86,67 @@ create table profiles (
 );
 ```
 
-### 4. Налаштування Google OAuth
+### 4. Google OAuth Setup
 
 1. **Supabase Dashboard:**
    - Authentication → URL Configuration
-   - Додайте redirect URLs: `http://localhost:5173` та `http://localhost:5173/**`
+   - Add redirect URLs: `http://localhost:5173` and `http://localhost:5173/**`
    - Authentication → Providers → Google
-   - Увімкніть Google провайдер
+   - Enable Google provider
 
 2. **Google Cloud Console:**
-   - Створіть OAuth 2.0 Client ID
-   - Додайте Authorized JavaScript origins: `http://localhost:5173`
-   - Додайте Authorized redirect URIs: `https://<your-project-ref>.supabase.co/auth/v1/callback`
-   - Скопіюйте Client ID та Client Secret в Supabase
+   - Create OAuth 2.0 Client ID
+   - Add Authorized JavaScript origins: `http://localhost:5173`
+   - Add Authorized redirect URIs: `https://<your-project-ref>.supabase.co/auth/v1/callback`
+   - Copy Client ID and Client Secret to Supabase
 
-## Запуск
+## Running
 
-### Розробка
+### Development
 
 ```bash
 npm run dev
 ```
 
-Додаток буде доступний на `http://localhost:5173`.
+The app will be available at `http://localhost:5173`.
 
-### Збірка
+### Build
 
 ```bash
 npm run build
 ```
 
-### Прев'ю збірки
+### Preview Build
 
 ```bash
 npm run preview
 ```
 
-## Тестування
+## Testing
 
-### Запуск тестів
+### Running Tests
 
 ```bash
-# Режим watch
+# Watch mode
 npm test
 
-# Одноразовий запуск
+# One-time run
 npm run test:run
 
-# UI для перегляду результатів
+# UI for viewing results
 npm run test:ui
 ```
 
-### Покриття тестами
+### Test Coverage
 
-- **utils.ts** — тести для функції об'єднання класів
-- **Button.tsx** — тести для кнопки (рендеринг, кліки, disabled)
-- **Input.tsx** — тести для інпуту (рендеринг, onChange, типи)
-- **auth.api.ts** — тести для API авторизації (моки Supabase)
+- **utils.ts** — tests for class merging function
+- **Button.tsx** — tests for button (rendering, clicks, disabled)
+- **Input.tsx** — tests for input (rendering, onChange, types)
+- **auth.api.ts** — tests for auth API (Supabase mocks)
 
-Всього: **27 тестів**
+Total: **27 tests**
 
-## Лінтинг
+## Linting
 
 ```bash
 npm run lint
@@ -154,12 +154,12 @@ npm run lint
 
 ## Coding Guidelines
 
-Дивіться [docs/rules/coding-guidelines.md](docs/rules/coding-guidelines.md) для повних правил кодування та кращих практик проекту.
+See [docs/rules/coding-guidelines.md](docs/rules/coding-guidelines.md) for complete coding rules and best practices for the project.
 
-## Основні принципи
+## Core Principles
 
-- **Простота** — мінімальні залежності, чистий код
-- **Типізація** — повна підтримка TypeScript
-- **Тестування** — покриття основних функцій
-- **Компонентна архітектура** — перевикористання компонентів
-- **Feature-based структура** — організація за функціональністю
+- **Simplicity** — minimal dependencies, clean code
+- **Type Safety** — full TypeScript support
+- **Testing** — coverage of core functionality
+- **Component Architecture** — reusable components
+- **Feature-based Structure** — organization by functionality

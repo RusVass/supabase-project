@@ -19,7 +19,7 @@ describe('auth.api', () => {
   })
 
   describe('signUpWithEmail', () => {
-    it('викликає supabase.auth.signUp з правильними параметрами', async () => {
+    it('calls supabase.auth.signUp with correct parameters', async () => {
       const mockSignUp = vi.mocked(supabase.auth.signUp)
       mockSignUp.mockResolvedValue({ data: { user: null, session: null }, error: null })
 
@@ -31,7 +31,7 @@ describe('auth.api', () => {
       })
     })
 
-    it('кидає помилку якщо signUp повертає error', async () => {
+    it('throws error if signUp returns error', async () => {
       const mockError = { message: 'Email already exists', status: 400 }
       const mockSignUp = vi.mocked(supabase.auth.signUp)
       mockSignUp.mockResolvedValue({ data: { user: null, session: null }, error: mockError })
@@ -43,7 +43,7 @@ describe('auth.api', () => {
   })
 
   describe('signInWithEmail', () => {
-    it('викликає supabase.auth.signInWithPassword з правильними параметрами', async () => {
+    it('calls supabase.auth.signInWithPassword with correct parameters', async () => {
       const mockSignIn = vi.mocked(supabase.auth.signInWithPassword)
       mockSignIn.mockResolvedValue({
         data: { user: null, session: null },
@@ -58,7 +58,7 @@ describe('auth.api', () => {
       })
     })
 
-    it('кидає помилку якщо signInWithPassword повертає error', async () => {
+    it('throws error if signInWithPassword returns error', async () => {
       const mockError = { message: 'Invalid credentials', status: 401 }
       const mockSignIn = vi.mocked(supabase.auth.signInWithPassword)
       mockSignIn.mockResolvedValue({
@@ -71,7 +71,7 @@ describe('auth.api', () => {
   })
 
   describe('signOut', () => {
-    it('викликає supabase.auth.signOut', async () => {
+    it('calls supabase.auth.signOut', async () => {
       const mockSignOut = vi.mocked(supabase.auth.signOut)
       mockSignOut.mockResolvedValue({ error: null })
 
@@ -80,7 +80,7 @@ describe('auth.api', () => {
       expect(mockSignOut).toHaveBeenCalled()
     })
 
-    it('кидає помилку якщо signOut повертає error', async () => {
+    it('throws error if signOut returns error', async () => {
       const mockError = { message: 'Sign out failed', status: 500 }
       const mockSignOut = vi.mocked(supabase.auth.signOut)
       mockSignOut.mockResolvedValue({ error: mockError })
@@ -97,7 +97,7 @@ describe('auth.api', () => {
       })
     })
 
-    it('викликає supabase.auth.signInWithOAuth з правильними параметрами', async () => {
+    it('calls supabase.auth.signInWithOAuth with correct parameters', async () => {
       const mockSignInOAuth = vi.mocked(supabase.auth.signInWithOAuth)
       mockSignInOAuth.mockResolvedValue({ data: { provider: 'google', url: '' }, error: null })
 
@@ -111,7 +111,7 @@ describe('auth.api', () => {
       })
     })
 
-    it('кидає помилку якщо signInWithOAuth повертає error', async () => {
+    it('throws error if signInWithOAuth returns error', async () => {
       const mockError = { message: 'OAuth failed', status: 400 }
       const mockSignInOAuth = vi.mocked(supabase.auth.signInWithOAuth)
       mockSignInOAuth.mockResolvedValue({

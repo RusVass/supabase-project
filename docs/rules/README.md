@@ -1,29 +1,29 @@
-# Правила Кодування
+# Coding Guidelines
 
-Ця папка містить керівні принципи та правила для написання коду в цьому проекті.
+This folder contains guidelines and rules for writing code in this project.
 
-## Файли
+## Files
 
-- `coding-guidelines.md` - Повний набір правил кодування, стилю та кращих практик
+- `coding-guidelines.md` - Complete set of coding rules, style, and best practices
 
-## Ключові принципи
+## Key Principles
 
-- Пиши код для людей перш за все
-- Віддавай перевагу ясності над хитрістю
-- Кожне рішення має бути обміркованим
-- Уникай непотрібних абстракцій
-- Оптимізуй для довгострокової підтримувальності
+- Write code for humans first
+- Prefer clarity over cleverness
+- Every decision must be intentional
+- Avoid unnecessary abstractions
+- Optimize for long-term maintainability
 
-## Структура відповідей
+## Response Structure
 
-A. Короткий план, 3–6 кроків.
-B. Код. Включай тільки файли, що змінюються.
-C. Тести.
-D. Пояснення. 5–10 пунктів максимум.
-E. Результати самоперевірки.
+A. Short plan, 3–6 steps.
+B. Code. Include only files that change.
+C. Tests.
+D. Explanation. 5–10 points maximum.
+E. Self-review results.
 
-## Технології
+## Technologies
 
 - TypeScript, Node.js, Next.js App Router
 - React, Shadcn UI, Radix UI, Tailwind
-- Функціональний та декларативний підхід
+- Functional and declarative approach

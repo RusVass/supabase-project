@@ -4,23 +4,23 @@ import userEvent from '@testing-library/user-event'
 import { Input } from './Input'
 
 describe('Input', () => {
-  it('рендерить інпут', () => {
+  it('renders input', () => {
     render(<Input />)
     expect(screen.getByRole('textbox')).toBeInTheDocument()
   })
 
-  it('відображає placeholder', () => {
+  it('displays placeholder', () => {
     render(<Input placeholder="Enter email" />)
     expect(screen.getByPlaceholderText('Enter email')).toBeInTheDocument()
   })
 
-  it('приймає та відображає value', () => {
+  it('accepts and displays value', () => {
     render(<Input value="test@example.com" readOnly />)
     const input = screen.getByRole('textbox') as HTMLInputElement
     expect(input.value).toBe('test@example.com')
   })
 
-  it('викликає onChange при введенні', async () => {
+  it('calls onChange on input', async () => {
     const handleChange = vi.fn()
     const user = userEvent.setup()
     render(<Input onChange={handleChange} />)
@@ -30,25 +30,25 @@ describe('Input', () => {
     expect(handleChange).toHaveBeenCalled()
   })
 
-  it('блокує інпут коли disabled', () => {
+  it('disables input when disabled', () => {
     render(<Input disabled />)
     const input = screen.getByRole('textbox')
     expect(input).toBeDisabled()
   })
 
-  it('встановлює type атрибут', () => {
+  it('sets type attribute', () => {
     render(<Input type="password" data-testid="password-input" />)
     const input = screen.getByTestId('password-input') as HTMLInputElement
     expect(input.type).toBe('password')
   })
 
-  it('приймає кастомні класи', () => {
+  it('accepts custom classes', () => {
     render(<Input className="custom-input" />)
     const input = screen.getByRole('textbox')
     expect(input).toHaveClass('custom-input')
   })
 
-  it('передає інші HTML атрибути', () => {
+  it('passes other HTML attributes', () => {
     render(<Input required data-testid="email-input" />)
     const input = screen.getByTestId('email-input')
     expect(input).toBeRequired()

@@ -2,6 +2,8 @@
 
 React application with authentication and user profile management, built on Supabase.
 
+**Live Demo:** [https://supabase-project-phi.vercel.app/](https://supabase-project-phi.vercel.app/)
+
 ## Technologies
 
 - **React 19** — UI library
@@ -152,9 +154,7 @@ Total: **27 tests**
 npm run lint
 ```
 
-## Coding Guidelines
 
-See [docs/rules/coding-guidelines.md](docs/rules/coding-guidelines.md) for complete coding rules and best practices for the project.
 
 ## Core Principles
 

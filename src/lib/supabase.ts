@@ -4,10 +4,12 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
 
 function assertEnv(value: string | undefined, name: string): string {
-  if (!value) {
-    throw new Error(
-      `Missing env ${name}. Create .env.local file with ${name} variable. See .env.example for reference.`
-    )
+  if (!value || value.trim() === '') {
+    const isProduction = import.meta.env.PROD
+    const message = isProduction
+      ? `Missing env ${name}. Please configure ${name} in your deployment platform (Vercel, Netlify, etc.).`
+      : `Missing env ${name}. Create .env.local file with ${name} variable. See .env.example for reference.`
+    throw new Error(message)
   }
   return value
 }

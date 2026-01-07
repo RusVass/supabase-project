@@ -5,59 +5,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
 
-/* Remove all borders, outlines, and shadows from images and avatar containers */
+/* Remove all borders, outlines, and shadows from images */
 img {
   border: 0 !important;
   outline: none !important;
   box-shadow: none !important;
-}
-
-/* CRITICAL: Force square shape on avatar - highest specificity possible */
-.avatar-container,
-.avatar-container.rounded-full,
-.avatar-container[class*="rounded"] {
-  border-radius: 0 !important;
-  -webkit-border-radius: 0 !important;
-  -moz-border-radius: 0 !important;
-}
-
-.avatar-container img,
-.avatar-container img.rounded-full,
-.avatar-container img[class*="rounded"],
-div.avatar-container img,
-div.avatar-container > img {
-  border: 0 !important;
-  outline: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  -webkit-border-radius: 0 !important;
-  -moz-border-radius: 0 !important;
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-}
-
-.avatar-container > div,
-.avatar-container > div.rounded-full,
-.avatar-container > div[class*="rounded"],
-div.avatar-container > div {
-  border: 0 !important;
-  outline: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  -webkit-border-radius: 0 !important;
-  -moz-border-radius: 0 !important;
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-}
-
-/* Remove any ring utilities that might create borders */
-.avatar-container,
-.avatar-container * {
-  --tw-ring-width: 0 !important;
-  --tw-ring-offset-width: 0 !important;
-  --tw-ring-color: transparent !important;
 }

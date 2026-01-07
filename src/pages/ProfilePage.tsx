@@ -218,6 +218,38 @@ export const ProfilePage = () => {
     }
   }
 
+  const handleAvatarRemove = async (): Promise<void> => {
+    if (!user) return
+
+    try {
+      if (avatarUrl) {
+        await deleteImage(avatarUrl)
+      }
+      setAvatarUrl(null)
+      await updateMyProfile(user.id, { avatar_url: null })
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to remove avatar'
+      setError(errorMessage)
+      throw err
+    }
+  }
+
+  const handleCoverRemove = async (): Promise<void> => {
+    if (!user) return
+
+    try {
+      if (coverUrl) {
+        await deleteImage(coverUrl)
+      }
+      setCoverUrl(null)
+      await updateMyProfile(user.id, { cover_url: null })
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to remove cover'
+      setError(errorMessage)
+      throw err
+    }
+  }
+
   const handleGalleryUpload = async (file: File): Promise<void> => {
     if (!user) return
 
@@ -572,6 +604,7 @@ export const ProfilePage = () => {
                         label="Avatar"
                         currentUrl={avatarUrl}
                         onUpload={handleAvatarUpload}
+                        onRemove={handleAvatarRemove}
                         maxSizeMB={5}
                         aspectRatio="square"
                         className="text-slate-50 max-w-[140px]"
@@ -580,6 +613,7 @@ export const ProfilePage = () => {
                         label="Cover image"
                         currentUrl={coverUrl}
                         onUpload={handleCoverUpload}
+                        onRemove={handleCoverRemove}
                         maxSizeMB={10}
                         aspectRatio="wide"
                         className="text-slate-50 max-w-[220px]"

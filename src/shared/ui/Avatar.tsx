@@ -18,7 +18,7 @@ export const Avatar = ({ src, alt = 'Avatar', size = 'md', className }: AvatarPr
   return (
     <div
       className={cn(
-        'avatar-container relative inline-block overflow-hidden rounded-none',
+        'avatar-container relative inline-block overflow-hidden rounded-full',
         sizeClasses[size],
         className
       )}
@@ -27,10 +27,10 @@ export const Avatar = ({ src, alt = 'Avatar', size = 'md', className }: AvatarPr
         <img
           src={src}
           alt={alt}
-          className="w-full h-full object-cover rounded-none block"
+          className="w-full h-full object-cover rounded-full block"
         />
       ) : (
-        <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold rounded-none">
+        <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold rounded-full">
           <svg className="w-1/2 h-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"

@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { Button } from './Button'
 import { cn } from '../../lib/utils'
 
 interface ImageUploadProps {
   onUpload: (file: File) => Promise<void>
+  onRemove?: () => Promise<void>
   currentUrl?: string | null
   label?: string
   accept?: string
@@ -14,6 +15,7 @@ interface ImageUploadProps {
 
 export const ImageUpload = ({
   onUpload,
+  onRemove,
   currentUrl,
   label = 'Upload image',
   accept = 'image/jpeg,image/png,image/webp',
@@ -23,8 +25,14 @@ export const ImageUpload = ({
 }: ImageUploadProps): React.ReactElement => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [isUploading, setIsUploading] = useState(false)
+  const [isRemoving, setIsRemoving] = useState(false)
   const [error, setError] = useState('')
   const [preview, setPreview] = useState<string | null>(currentUrl || null)
+
+  // Sync preview with currentUrl when it changes
+  useEffect(() => {
+    setPreview(currentUrl || null)
+  }, [currentUrl])
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
     const file = e.target.files?.[0]
@@ -59,10 +67,29 @@ export const ImageUpload = ({
     }
   }
 
-  const handleRemove = (): void => {
-    setPreview(null)
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ''
+  const handleRemove = async (): Promise<void> => {
+    if (!onRemove) {
+      // If no onRemove callback, just clear preview
+      setPreview(null)
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
+      return
+    }
+
+    setIsRemoving(true)
+    setError('')
+    try {
+      await onRemove()
+      setPreview(null)
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to remove image'
+      setError(errorMessage)
+    } finally {
+      setIsRemoving(false)
     }
   }
 
@@ -101,10 +128,10 @@ export const ImageUpload = ({
               <Button
                 type="button"
                 onClick={handleRemove}
-                disabled={isUploading}
+                disabled={isUploading || isRemoving}
                 className="bg-red-500/90 text-white hover:bg-red-600 text-sm px-3 py-1.5"
               >
-                Remove
+                {isRemoving ? 'Removing...' : 'Remove'}
               </Button>
             </div>
           </div>

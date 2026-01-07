@@ -347,7 +347,7 @@ export const ProfilePage = () => {
               </div>
               <div className="px-5 pb-5 pt-4">
                 <div className="-mt-12 flex items-end gap-4">
-                  <Avatar src={avatarUrl} size="xl" className="ring-4 ring-slate-950" />
+                  <Avatar src={avatarUrl} size="xl" />
                   <div className="flex-1">
                     <h2 className="text-lg font-semibold text-slate-50">
                       {[firstName, lastName].filter(Boolean).join(' ') || 'Unnamed user'}

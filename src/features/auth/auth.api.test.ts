@@ -9,6 +9,7 @@ vi.mock('../../lib/supabase', () => ({
       signInWithPassword: vi.fn(),
       signOut: vi.fn(),
       signInWithOAuth: vi.fn(),
+      getSession: vi.fn(),
     },
   },
 }))
@@ -71,18 +72,34 @@ describe('auth.api', () => {
   })
 
   describe('signOut', () => {
-    it('calls supabase.auth.signOut', async () => {
+    it('calls supabase.auth.signOut when session exists', async () => {
+      const mockGetSession = vi.mocked(supabase.auth.getSession)
       const mockSignOut = vi.mocked(supabase.auth.signOut)
+      mockGetSession.mockResolvedValue({ data: { session: { user: {} } as unknown }, error: null })
       mockSignOut.mockResolvedValue({ error: null })
 
       await signOut()
 
+      expect(mockGetSession).toHaveBeenCalled()
       expect(mockSignOut).toHaveBeenCalled()
     })
 
-    it('throws error if signOut returns error', async () => {
-      const mockError = { message: 'Sign out failed', status: 500 }
+    it('does not call signOut when no session exists', async () => {
+      const mockGetSession = vi.mocked(supabase.auth.getSession)
       const mockSignOut = vi.mocked(supabase.auth.signOut)
+      mockGetSession.mockResolvedValue({ data: { session: null }, error: null })
+
+      await signOut()
+
+      expect(mockGetSession).toHaveBeenCalled()
+      expect(mockSignOut).not.toHaveBeenCalled()
+    })
+
+    it('throws error if signOut returns error', async () => {
+      const mockGetSession = vi.mocked(supabase.auth.getSession)
+      const mockSignOut = vi.mocked(supabase.auth.signOut)
+      mockGetSession.mockResolvedValue({ data: { session: { user: {} } as unknown }, error: null })
+      const mockError = { message: 'Sign out failed', status: 500 }
       mockSignOut.mockResolvedValue({ error: mockError })
 
       await expect(signOut()).rejects.toEqual(mockError)
@@ -107,6 +124,10 @@ describe('auth.api', () => {
         provider: 'google',
         options: {
           redirectTo: 'http://localhost:5173',
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'select_account',
+          },
         },
       })
     })

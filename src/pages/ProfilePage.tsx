@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../features/auth/useAuth'
-import { getMyProfile, upsertMyProfile, updateMyProfile } from '../features/profiles/profiles.api'
-import { uploadAvatar, uploadCover, uploadGalleryImage, deleteImage } from '../features/profiles/storage.api'
+import { getMyProfile, upsertMyProfile, updateMyProfile, deleteMyProfile } from '../features/profiles/profiles.api'
+import { uploadAvatar, uploadCover, uploadGalleryImage, deleteImage, deleteAllUserFiles } from '../features/profiles/storage.api'
 import type { Profile } from '../features/profiles/profiles.types'
 import { Button } from '../shared/ui/Button'
 import { Input } from '../shared/ui/Input'
@@ -310,6 +310,39 @@ export const ProfilePage = () => {
     }
   }
 
+  const handleDeleteProfile = async (): Promise<void> => {
+    if (!user) return
+
+    // Confirm deletion
+    const confirmed = window.confirm(
+      'Are you sure you want to delete your profile? This action cannot be undone. All your data, including photos, will be permanently deleted.'
+    )
+
+    if (!confirmed) return
+
+    setIsLoading(true)
+    setError('')
+
+    try {
+      // Delete all user files from storage
+      await deleteAllUserFiles(user.id).catch((err) => {
+        // Log but don't fail - files might already be deleted
+        console.warn('Error deleting user files:', err)
+      })
+
+      // Delete profile from database
+      await deleteMyProfile(user.id)
+
+      // Sign out user (this will redirect to login page via App.tsx)
+      await signOut()
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to delete profile'
+      setError(errorMessage)
+      console.error('Delete profile error:', err)
+      setIsLoading(false)
+    }
+  }
+
   const age = profile?.date_of_birth ? calculateAge(profile.date_of_birth) : null
 
   if (!user) {
@@ -472,12 +505,22 @@ export const ProfilePage = () => {
               </h2>
               <div className="flex items-center gap-2">
                 {!isEditing && (
-                  <Button
-                    onClick={() => setIsEditing(true)}
-                    className="h-9 rounded-full bg-indigo-600 px-4 text-xs font-semibold text-white hover:bg-indigo-500"
-                  >
-                    Edit profile
-                  </Button>
+                  <>
+                    <Button
+                      onClick={() => setIsEditing(true)}
+                      className="h-9 rounded-full bg-indigo-600 px-4 text-xs font-semibold text-white hover:bg-indigo-500"
+                    >
+                      Edit profile
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={handleDeleteProfile}
+                      disabled={isLoading}
+                      className="h-9 rounded-full border border-red-500/60 bg-red-600/20 px-4 text-xs font-semibold text-red-200 hover:bg-red-600/40 disabled:opacity-50"
+                    >
+                      {isLoading ? 'Deleting…' : 'Delete Profile'}
+                    </Button>
+                  </>
                 )}
               </div>
             </div>

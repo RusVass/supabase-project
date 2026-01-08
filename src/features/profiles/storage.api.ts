@@ -135,3 +135,38 @@ export async function deleteImage(fileUrl: string): Promise<void> {
   if (error) throw error
 }
 
+export async function deleteAllUserFiles(userId: string): Promise<void> {
+  // Delete all files in user's folders (avatars, covers, gallery)
+  const folders = [AVATAR_FOLDER, COVER_FOLDER, GALLERY_FOLDER]
+  
+  for (const folder of folders) {
+    const folderPath = `${folder}/${userId}`
+    
+    // List all files in the folder
+    const { data: files, error: listError } = await supabase.storage
+      .from(BUCKET_NAME)
+      .list(folderPath)
+    
+    if (listError) {
+      // If folder doesn't exist, continue to next folder
+      if (listError.message.includes('not found')) {
+        continue
+      }
+      throw listError
+    }
+    
+    if (files && files.length > 0) {
+      // Delete all files in the folder
+      const filePaths = files.map(file => `${folderPath}/${file.name}`)
+      const { error: deleteError } = await supabase.storage
+        .from(BUCKET_NAME)
+        .remove(filePaths)
+      
+      if (deleteError) {
+        // Log error but continue - some files might already be deleted
+        console.warn(`Error deleting files from ${folderPath}:`, deleteError)
+      }
+    }
+  }
+}
+

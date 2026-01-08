@@ -51,3 +51,15 @@ export const updateMyProfile = async (userId: string, updates: Partial<Profile>)
   
   return data
 }
+
+export const deleteMyProfile = async (userId: string): Promise<void> => {
+  const { error } = await supabase
+    .from('profiles')
+    .delete()
+    .eq('user_id', userId)
+
+  if (error) {
+    const errorMessage = error.message || 'Unknown error'
+    throw new Error(errorMessage)
+  }
+}
